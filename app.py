@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import PySimpleGUI as sg
 import sys
 import os
