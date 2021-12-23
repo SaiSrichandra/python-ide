@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 import PySimpleGUI as sg
 import sys
 import os
@@ -18,8 +17,8 @@ var = sys.stdout
 w_wid = 50
 w_hei = 50
 
-f_run = "Run .. (Ctrl+r)"
-f_prog = "New Program ... (Ctrl+p)"
+f_run = "Run .. (Ctrl+R)"
+f_prog = "New Program ... (Ctrl+N)"
 menu_layout = [['Run', [f_run]],['New', [f_prog]]]
 
 
@@ -28,7 +27,7 @@ layout = [[sg.Menu(menu_layout)],[sg.Text(size=(24,10), key='-TEXT-')], [sg.Mult
 layout_inp = [
     [sg.Text('Please enter your Roll No')],
     [sg.Text('Roll Number', size =(15, 1)), sg.InputText()],
-    [sg.Submit()]
+    [sg.Submit(bind_return_key = False,)]
 ]
 
 window = sg.Window('PY IDE', layout=layout, margins=(0, 0), resizable=True, return_keyboard_events=True)
@@ -39,7 +38,6 @@ window_inp['Submit'].update(disabled=True)
 
 while(True):
     event,values = window_inp.read()
-
     if values[0] != '' and (values[0].isnumeric()):
         window_inp['Submit'].update(disabled=False)
     else:
@@ -73,6 +71,14 @@ while(True):
                 exec(values['_BODY_'])
             with open("out.txt", "r") as sys.stdout:
                 window['-TEXT-'].update(str(sys.stdout.read()))
+            
+            path = "dataset"
+            filename = roll_no+"-"+str(counter)+"-"+str(prog)+".txt"
+            file_path = os.path.join(path, filename)
+
+            with open(file_path, "w+") as fp:
+                fp.write(values['_BODY_'])
+            counter+=1
 
         except Exception as e:
             with open("err.txt", "w+") as sys.stdout:
@@ -98,7 +104,7 @@ while(True):
                 print(e)
             sys.stdout = var
 
-    if(event == 'p:80'):
+    if(event == 'n:78'):
         prog+=1
         window['-TEXT-'].update("")
         window['_BODY_'].update("")
