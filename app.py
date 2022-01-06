@@ -39,7 +39,6 @@ window_inp['Submit'].update(disabled=True)
 
 while(True):
     event,values = window_inp.read()
-    print(event)
     if values[0] != '' and re.match('[0-9]{12}$', values[0]):
         window_inp['Submit'].update(disabled=False)
     else:
@@ -57,7 +56,7 @@ window.Finalize()
 window.Maximize()
 w_win,h_win = window.size
 _,h_body = window['_BODY_'].Size
-layout = [[sg.Menu(menu_layout)],[sg.Text(size=(24,10), key='-TEXT-')], [sg.Multiline(font=('Arial',15), size=(w_win,h_body-25), key='_BODY_')]]
+layout = [[sg.Menu(menu_layout)],[sg.Text(size=(24,10), key='-TEXT-')], [sg.Multiline(font=('Arial',15), size=(w_win,h_body), key='_BODY_')]]
 window.close()
 window = sg.Window('PY IDE', layout=layout, margins=(0, 0), resizable=True, return_keyboard_events=True).Finalize()
 window.Maximize()
