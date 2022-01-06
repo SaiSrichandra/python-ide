@@ -64,7 +64,7 @@ window.Maximize()
 while(True):
     event, values = window.read()
     # print(event, values)
-    if(event in None or event == 'F12:96' ):
+    if(event == None or event == 'F12:96' ):
         break
     if(event == f_run or event == 'F5:71'):
         try :
