@@ -18,8 +18,8 @@ var = sys.stdout
 w_wid = 50
 w_hei = 50
 
-f_run = "Run .. (Ctrl+R)"
-f_prog = "New Program ... (Ctrl+N)"
+f_run = "Run .. (F5)"
+f_prog = "New Program ... (F9)"
 menu_layout = [['Run', [f_run]],['New', [f_prog]]]
 
 
@@ -39,6 +39,7 @@ window_inp['Submit'].update(disabled=True)
 
 while(True):
     event,values = window_inp.read()
+    print(event)
     if values[0] != '' and re.match('[0-9]{12}$', values[0]):
         window_inp['Submit'].update(disabled=False)
     else:
@@ -56,7 +57,7 @@ window.Finalize()
 window.Maximize()
 w_win,h_win = window.size
 _,h_body = window['_BODY_'].Size
-layout = [[sg.Menu(menu_layout)],[sg.Text(size=(24,10), key='-TEXT-')], [sg.Multiline(font=('Arial',15), size=(w_win,h_body), key='_BODY_')]]
+layout = [[sg.Menu(menu_layout)],[sg.Text(size=(24,10), key='-TEXT-')], [sg.Multiline(font=('Arial',15), size=(w_win,h_body-25), key='_BODY_')]]
 window.close()
 window = sg.Window('PY IDE', layout=layout, margins=(0, 0), resizable=True, return_keyboard_events=True).Finalize()
 window.Maximize()
@@ -64,9 +65,9 @@ window.Maximize()
 while(True):
     event, values = window.read()
     # print(event, values)
-    if(event in (None,'Exit')):
+    if(event in None or event == 'F12:96' ):
         break
-    if(event in (f_run, 'r:82', 'r:251658258')):
+    if(event == f_run or event == 'F5:71'):
         try :
             with open("out.txt", "w+") as sys.stdout:
                 exec(values['_BODY_'])
@@ -105,7 +106,7 @@ while(True):
                 print(e)
             sys.stdout = var
 
-    if(event == 'n:78'):
+    if(event == f_prog or event == 'F9:75'):
         prog+=1
         window['-TEXT-'].update("")
         window['_BODY_'].update("")
