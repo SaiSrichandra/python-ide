@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import PySimpleGUI as sg
+import re
 import sys
 import os
 import threading
@@ -22,7 +23,7 @@ f_prog = "New Program ... (Ctrl+N)"
 menu_layout = [['Run', [f_run]],['New', [f_prog]]]
 
 
-layout = [[sg.Menu(menu_layout)],[sg.Text(size=(24,10), key='-TEXT-')], [sg.Multiline(font=('Arial',15), size=(w_wid,w_hei), key='_BODY_')]]
+layout = [[sg.Menu(menu_layout)],[sg.Text(size=(24,3), key='-TEXT-')],[sg.Text(size=(24,10), key='-TEXT-')], [sg.Multiline(font=('Arial',15), size=(w_wid,w_hei), key='_BODY_')]]
 
 layout_inp = [
     [sg.Text('Please enter your Roll No')],
@@ -30,7 +31,7 @@ layout_inp = [
     [sg.Submit(bind_return_key = False,)]
 ]
 
-window = sg.Window('PY IDE', layout=layout, margins=(0, 0), resizable=True, return_keyboard_events=True)
+window = sg.Window('PY IDE', layout=layout, margins=(0, 0), resizable=True, return_keyboard_events=True)#,web_port=2222)
 
 
 window_inp = sg.Window('PY INP', layout = layout_inp, resizable=True, return_keyboard_events=True).Finalize()
@@ -38,14 +39,14 @@ window_inp['Submit'].update(disabled=True)
 
 while(True):
     event,values = window_inp.read()
-    if values[0] != '' and (values[0].isnumeric()):
+    if values[0] != '' and re.match('[0-9]{12}$', values[0]):
         window_inp['Submit'].update(disabled=False)
     else:
         window_inp['Submit'].update(disabled=True)
     
     if(event in (None,'Exit')):
         exit(0)
-    if event in ('Submit'):
+    if event == 'Submit':
         roll_no = values[0]
         window_inp.close()
         break
